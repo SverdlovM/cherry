@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сорта вишни</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cherry-red: #8B0000;
+            --light-cherry: #840909;
+            --leaf-green: #006400;
+            --beige: #F5F5DC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--beige);
+        }
+
+        /* Шапка */
+        .header {
+            background: #5D000B;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.603);
+            text-shadow: 1px 1px 5px rgb(0, 0, 0);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--beige);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 2rem;
+            text-decoration: none;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .auth-button {
+            background-color: var(--light-cherry);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .auth-button:hover {
+            background-color: var(--cherry-red);
+        }
+
+                /* Формы */
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 2rem auto;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+        }
+
+        .form-container h2 {
+            color: var(--cherry-red);
+            margin-bottom: 1rem;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            padding: 0.5rem;
+            background-color: var(--light-cherry);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container .close-button {
+            background: none;
+            border: none;
+            color: var(--cherry-red);
+            font-size: 1.5rem;
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .form-container .close-button:hover {
+            color: var(--light-cherry);
+        }
+
+        /* Основной контент */
+        .content-section {
+            padding: 6rem 2rem 2rem; /* Учитываем высоту шапки */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--cherry-red);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .variety-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .variety-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .variety-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .variety-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            color: var(--cherry-red);
+            margin-bottom: 1rem;
+        }
+
+        .card-content p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .variety-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="recipes.html">Рецепты</a></li>
+            </ul>
+            <a href="#" class="logo">cherry</a>
+            <button class="auth-button" onclick="showLoginForm()">Вход</button>
+        </nav>
+    </header>
+    <div class="form-container" id="register-form">
+        <button class="close-button" onclick="hideForms()">&times;</button>
+        <h2>Регистрация</h2>
+        <input type="text" id="reg-username" placeholder="Имя пользователя">
+        <input type="password" id="reg-password" placeholder="Пароль">
+        <button onclick="register()">Зарегистрироваться</button>
+        <p id="reg-message"></p>
+        <p>Уже есть аккаунт? <a href="#" onclick="showLoginForm()">Войти</a></p>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content-section">
+        <h2 class="section-title">Популярные сорта вишни</h2>
+        <div class="variety-grid">
+            <!-- Сорт 1 -->
+            <article class="variety-card">
+                <img src="https://ecosystema.ru/08nature/fruits/024f.jpg" alt="Вишня обыкновенная" class="variety-image">
+                <div class="card-content">
+                    <h3>Вишня обыкновенная</h3>
+                    <p>Классический сорт с сочными кисло-сладкими ягодами. Идеально подходит для варенья и компотов.</p>
+                    <p><strong>Особенности:</strong> Высокая урожайность, устойчивость к морозам.</p>
+                </div>
+            </article>
+
+            <!-- Сорт 2 -->
+            <article class="variety-card">
+                <img src="https://uralsad74.ru/upload/resize_cache/webp/iblock/200/0jj5f6p8fkmtc691ogw34s5123aoqdsi.webp" alt="Вишня войлочная" class="variety-image">
+                <div class="card-content">
+                    <h3>Вишня войлочная</h3>
+                    <p>Мелкие сладкие ягоды с нежной мякотью. Часто используется в десертах.</p>
+                    <p><strong>Особенности:</strong> Компактный куст, раннее плодоношение.</p>
+                </div>
+            </article>
+
+            <!-- Сорт 3 -->
+            <article class="variety-card">
+                <img src="https://dolina-sad.ru/upload/iblock/a6a/3ksuceji1b30etmkpotq2xbjd5c5gl3u.jpg" alt="Вишня шпанка" class="variety-image">
+                <div class="card-content">
+                    <h3>Вишня шпанка</h3>
+                    <p>Крупные ягоды с насыщенным вкусом. Подходит для употребления в свежем виде.</p>
+                    <p><strong>Особенности:</strong> Устойчивость к болезням, высокая урожайность.</p>
+                </div>
+            </article>
+    </div>
+
+    <script>
+        // Показать форму входа
+        function showLoginForm() {
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+        // Показать форму регистрации
+        function showRegisterForm() {
+            document.getElementById('register-form').style.display = 'block';
+        }
+
+        // Скрыть все формы
+        function hideForms() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'none';
+        }
+
+        // Регистрация
+        function register() {
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (!username || !password) {
+                document.getElementById('reg-message').textContent = "Заполните все поля!";
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = users.some(user => user.username === username);
+
+            if (userExists) {
+                document.getElementById('reg-message').textContent = "Пользователь уже существует!";
+                return;
+            }
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            document.getElementById('reg-message').textContent = "Регистрация успешна!";
+            setTimeout(() => {
+                hideForms();
+                showLoginForm();
+            }, 1000);
+        }
+
+        // Вход
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                document.getElementById('login-message').textContent = "Успешный вход!";
+                setTimeout(() => {
+                    hideForms();
+                }, 1000);
+            } else {
+                document.getElementById('login-message').textContent = "Неверный логин или пароль.";
+            }
+        }
+
+    </script>
+</body>
+</html>
